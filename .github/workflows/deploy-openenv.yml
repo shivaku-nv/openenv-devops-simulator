@@ -1,0 +1,38 @@
+name: Deploy to OpenEnv
+
+on:
+  workflow_dispatch:
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+
+      - name: Setup uv
+        uses: astral-sh/setup-uv@v4
+
+      - name: Install project dependencies
+        run: |
+          uv sync --active
+
+      - name: Authenticate Hugging Face
+        run: |
+          # https://huggingface.co/docs/huggingface_hub/guides/cli
+          uvx --from huggingface_hub hf auth login --token "$HF_TOKEN"
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+
+      - name: Deploy to OpenEnv
+        run: |
+          uv run openenv push --repo-id shivakunv/devops_incident_sim

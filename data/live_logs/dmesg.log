@@ -1,0 +1,5 @@
+[42133.918244] Out of memory: Killed process 2145 (python3) total-vm:1820040kB, anon-rss:950432kB, file-rss:0kB
+[42133.918250] oom_reaper: reaped process 2145 (python3), now anon-rss:0kB
+[42135.122100] EXT4-fs warning (device sda1): ext4_end_bio:349: I/O error 10 writing to inode 924145
+[42140.887201] eth0: link is down
+[42141.112203] IPv6: ADDRCONF(NETDEV_CHANGE): eth0: link becomes ready

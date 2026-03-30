@@ -1,0 +1,4 @@
+Mar 28 10:14:01 ubuntu kernel: [42150.111002] No space left on device while writing /var/log/syslog
+Mar 28 10:14:03 ubuntu systemd[1]: myservice.service: Main process exited, code=killed, status=9/KILL
+Mar 28 10:14:09 ubuntu resolver[903]: Temporary failure in name resolution for api.internal
+Mar 28 10:14:13 ubuntu app[12122]: Connection timed out during TLS handshake to api.internal:443

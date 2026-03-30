@@ -1,0 +1,27 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "openenv-devops-simulator"
+version = "0.1.0"
+description = "OpenEnv DevOps Incident Simulator"
+requires-python = ">=3.10"
+dependencies = [
+  "openenv-core[core]>=0.2.2",
+  "fastapi",
+  "uvicorn",
+  "pydantic",
+  "python-multipart",
+  "openai>=1.0.0",
+]
+
+[project.scripts]
+server = "server.app:main"
+
+[tool.setuptools]
+py-modules = ["run_server", "client", "models", "inference"]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["api", "data", "env", "evaluation", "graders", "server", "tasks", "utils"]

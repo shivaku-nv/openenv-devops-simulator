@@ -1,0 +1,13 @@
+===== CORE DUMP LOGS =====
+Mar 28 10:12:44 ubuntu systemd-coredump[8244]: Process 8111 (nginx) of user 33 dumped core.
+Segmentation fault (core dumped)
+
+===== DMESG LOGS =====
+[42133.918244] Out of memory: Killed process 2145 (python3) total-vm:1820040kB, anon-rss:950432kB
+[42135.122100] EXT4-fs warning (device sda1): ext4_end_bio:349: I/O error writing to inode 924145
+[42140.887201] eth0: link is down
+
+===== SYSLOG LOGS =====
+Mar 28 10:14:01 ubuntu kernel: No space left on device while writing /var/log/syslog
+Mar 28 10:14:03 ubuntu systemd[1]: myservice.service: Main process exited, code=killed, status=9/KILL
+Mar 28 10:14:13 ubuntu app[12122]: Connection timed out during TLS handshake to api.internal:443

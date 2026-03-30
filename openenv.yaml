@@ -1,0 +1,24 @@
+
+spec_version: 1
+name: devops_incident_sim
+type: space
+runtime: fastapi
+app: server.app:app
+port: 7860
+description: Real-world DevOps simulation environment
+
+endpoints:
+  reset: /reset
+  step: /step
+  state: /state
+  tasks: /tasks
+  grader: /grader
+  baseline: /baseline
+  ingest_log: /ingest_log
+  ingest_log_file: /ingest_log_file
+  log_ui: /log-ui
+
+tasks:
+  - easy
+  - medium
+  - hard

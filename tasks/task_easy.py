@@ -1,0 +1,1 @@
+def get_easy_task(): return {"logs":"No space left on device","metrics":{"cpu":20},"label":"disk_full","solution":"clear_disk"}

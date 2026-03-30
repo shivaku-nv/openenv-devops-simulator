@@ -1,0 +1,6 @@
+openenv-core[core]>=0.2.2
+fastapi
+uvicorn
+pydantic
+python-multipart
+openai>=1.0.0

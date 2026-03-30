@@ -1,0 +1,1 @@
+def get_hard_task(): return {"logs":"Connection timeout","metrics":{"network":10},"label":"network_issue","solution":"scale_up"}

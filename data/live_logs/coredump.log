@@ -1,0 +1,6 @@
+Mar 28 10:12:44 ubuntu systemd-coredump[8244]: Process 8111 (nginx) of user 33 dumped core.
+Stack trace of thread 8111:
+#0  0x00007f3cb418d2f1 __memmove_avx_unaligned_erms (libc.so.6 + 0x15b2f1)
+#1  0x000055e4a31f2b9a ngx_http_parse.c:742
+#2  0x000055e4a31e18c2 ngx_worker_process_cycle
+Segmentation fault (core dumped)
