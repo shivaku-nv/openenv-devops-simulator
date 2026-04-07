@@ -50,7 +50,7 @@ class DevOpsEnv(BaseEnv):
         if self.history and self.history[-1]["action_type"] == action.action_type:
             reward -= 0.1
 
-        self.history.append(action.dict())
+        self.history.append(action.model_dump())
 
         if self.steps >= self.max_steps:
             self.done = True
