@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-import json
 import os
 from typing import Any
 
@@ -14,10 +13,25 @@ from graders.registry import grade
 from tasks.registry import TASKS
 
 ALLOWED_FIXES = ("clear_disk", "restart_service", "scale_up")
+DEFAULT_API_BASE_URL = "https://api.together.xyz/v1"
+DEFAULT_MODEL_NAME = "nvidia/llama-3.1-nemotron-70b-instruct"
+API_BASE_URL = os.getenv("API_BASE_URL", DEFAULT_API_BASE_URL).strip()
+MODEL_NAME = os.getenv("MODEL_NAME", DEFAULT_MODEL_NAME).strip()
+HF_TOKEN = os.getenv("HF_TOKEN", "").strip()
+LOCAL_IMAGE_NAME = os.getenv("LOCAL_IMAGE_NAME", "").strip()
+
+
+def format_value(value: Any) -> str:
+    if isinstance(value, bool):
+        return str(value).lower()
+    if isinstance(value, float):
+        return f"{value:.4f}"
+    text = str(value)
+    return text.replace(" ", "_")
 
 
 def emit(tag: str, **fields: Any) -> None:
-    parts = [f"{key}={json.dumps(value)}" for key, value in fields.items()]
+    parts = [f"{key}={format_value(value)}" for key, value in fields.items()]
     print(f"[{tag}] {' '.join(parts)}", flush=True)
 
 
@@ -31,15 +45,12 @@ def heuristic_fix(log_text: str) -> str:
 
 
 def choose_fix_with_llm(log_text: str) -> str:
-    api_base = os.getenv("API_BASE_URL", "").strip()
-    model_name = os.getenv("MODEL_NAME", "").strip()
-    api_key = os.getenv("HF_TOKEN", "").strip()
     fallback = heuristic_fix(log_text)
 
-    if not api_base or not model_name or not api_key:
+    if not HF_TOKEN:
         return fallback
 
-    client = OpenAI(base_url=api_base.rstrip("/"), api_key=api_key)
+    client = OpenAI(base_url=API_BASE_URL.rstrip("/"), api_key=HF_TOKEN)
     prompt = (
         "You are a DevOps incident triage assistant.\n"
         f"Pick exactly one fix from {list(ALLOWED_FIXES)}.\n"
@@ -49,7 +60,7 @@ def choose_fix_with_llm(log_text: str) -> str:
 
     try:
         response = client.chat.completions.create(
-            model=model_name,
+            model=MODEL_NAME,
             temperature=0,
             messages=[{"role": "user", "content": prompt}],
         )
@@ -80,7 +91,7 @@ def run_once(task_name: str) -> dict[str, Any]:
         action="analyze_logs",
         reward=round(analyze_reward, 4),
         done=analyze_done,
-        logs_preview=observation.logs[:80],
+        logs_preview=observation.logs[:80].replace("\n", " "),
     )
 
     _, reward, done, _ = env.step(Action(action_type="take_action", payload={"fix": fix}))
@@ -107,9 +118,8 @@ def run_once(task_name: str) -> dict[str, Any]:
 
 
 def main() -> None:
-    results = [run_once(task_name) for task_name in TASKS]
-    avg_score = sum(row["score"] for row in results) / len(results)
-    emit("END", task="summary", score=round(avg_score, 4), steps=len(results), done=True)
+    for task_name in TASKS:
+        run_once(task_name)
 
 
 if __name__ == "__main__":
