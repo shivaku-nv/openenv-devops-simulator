@@ -51,3 +51,8 @@ curl -s -X POST "$SPACE_URL/ingest_log" \
   -H "Content-Type: application/json" \
   -d '{"source":"manual_text","log":"Out of memory: Killed process 2145 (python3)"}'
 ```
+
+Command Line:
+```bash
+./validate-submission.sh https://shivakunv-devops-incident-sim.hf.space
+```
