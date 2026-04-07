@@ -1,4 +1,6 @@
-FROM python:3.10-slim
+# commented due to docker error on scaler server
+#FROM python:3.10-slim
+FROM ghcr.io/astral-sh/uv:python3.10-bookworm
 
 WORKDIR /app
 
