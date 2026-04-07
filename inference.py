@@ -106,6 +106,7 @@ def run_once(task_name: str) -> dict[str, Any]:
     )
 
     score = grade(env.history, env.task)
+    score = max(0.01, min(0.99, float(score)))
     emit("END", task=task_name, score=score, steps=env.steps, fix=fix, done=done)
 
     return {

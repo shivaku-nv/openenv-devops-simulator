@@ -6,6 +6,7 @@ from env.base_env import Action
 from tasks.registry import TASKS
 from graders.registry import grade
 from models.log_classifier import classify_log
+from tasks.registry import compute_score
 
 app = FastAPI()
 env = DevOpsEnv()
@@ -101,7 +102,7 @@ def run_ingestion(log_text: str, source: str = "unknown"):
     env.step(Action(action_type="analyze_logs"))
     _, reward, done, _ = env.step(Action(action_type="take_action", payload={"fix": fix}))
     state = env.state()
-
+    score = compute_score(reward, task_name)
     return {
         "source": source,
         "predicted_label": predicted_label,
@@ -109,7 +110,7 @@ def run_ingestion(log_text: str, source: str = "unknown"):
         "recommended_fix": fix,
         "done": done,
         "last_reward": reward,
-        "score": grade(state["history"], state["task"])
+        "score": score
     }
 
 @app.post("/reset")
@@ -133,7 +134,9 @@ def tasks():
 @app.post("/grader")
 def grader():
     state = env.state()
-    return {"score": grade(state["history"], state["task"])}
+    reward = state["history"][-1].get("reward", 0.5) if state["history"] else 0.5
+    score = compute_score(reward, state["task"]["name"])
+    return {"score": score}
 
 @app.get("/baseline")
 def baseline(task_name: str = None):
@@ -142,11 +145,12 @@ def baseline(task_name: str = None):
     solution = env.task["solution"]
     _, reward, done, _ = env.step(Action(action_type="take_action", payload={"fix": solution}))
     state = env.state()
+    score = compute_score(reward, env.task_name)
     return {
         "task_name": env.task_name,
         "done": done,
         "last_reward": reward,
-        "score": grade(state["history"], state["task"])
+        "score": score
     }
 
 @app.post("/ingest_log")
