@@ -1,0 +1,54 @@
+{
+  "profiles": {
+    "default": {
+      "ideal_steps": 2,
+      "recovery": 0.35,
+      "root_cause": 0.2,
+      "efficiency": 0.15,
+      "safety": 0.15,
+      "coordination": 0.1,
+      "communication": 0.025,
+      "learning": 0.025
+    },
+    "easy": {
+      "ideal_steps": 2,
+      "recovery": 0.3,
+      "root_cause": 0.2,
+      "efficiency": 0.15,
+      "safety": 0.15,
+      "coordination": 0.1,
+      "communication": 0.05,
+      "learning": 0.05
+    },
+    "medium": {
+      "ideal_steps": 2,
+      "recovery": 0.35,
+      "root_cause": 0.2,
+      "efficiency": 0.15,
+      "safety": 0.15,
+      "coordination": 0.1,
+      "communication": 0.025,
+      "learning": 0.025
+    },
+    "hard": {
+      "ideal_steps": 2,
+      "recovery": 0.4,
+      "root_cause": 0.2,
+      "efficiency": 0.1,
+      "safety": 0.15,
+      "coordination": 0.1,
+      "communication": 0.025,
+      "learning": 0.025
+    },
+    "incident_command": {
+      "ideal_steps": 5,
+      "recovery": 0.28,
+      "root_cause": 0.18,
+      "efficiency": 0.12,
+      "safety": 0.14,
+      "coordination": 0.12,
+      "communication": 0.08,
+      "learning": 0.08
+    }
+  }
+}

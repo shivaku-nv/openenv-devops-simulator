@@ -8,6 +8,7 @@ app_port: 7860
 
 This project helps you test DevOps incident handling from real-looking logs.
 You can paste or upload logs (dmesg/syslog/core dump style), get a predicted issue, apply a mapped fix, and see a score.
+It now also includes a Phase 2 `incident_command` scenario for richer multi-step response, communication, and postmortem evaluation.
 
 ## Deployment On Hugging Face
 This app is intended to run as a Hugging Face Docker Space.
@@ -32,22 +33,29 @@ Core behavior:
 
 Goal: make log triage easy to test and demo.
 
+Phase 2 behavior:
+1. Runs a richer `incident_command` environment task.
+2. Supports delegation, stakeholder communication, and postmortem actions.
+3. Grades episodes with a configurable reward engine and score breakdown.
+
 ## Main Capabilities
 - Raw log ingestion via JSON (`/ingest_log`)
 - File upload ingestion via multipart (`/ingest_log_file`)
 - Browser UI for paste/upload (`/log-ui`)
-- Deterministic scoring (`/grader`)
+- Configurable reward scoring with component breakdown (`/grader`)
 - Classic OpenEnv endpoints (`/reset`, `/step`, `/state`, `/tasks`, `/baseline`)
+- Phase 2 multi-step task: `incident_command`
 - Docker-ready deployment
 
 ## Dir Highlights
 - `api/server.py` - API routes and ingestion logic
 - `env/` - simulator environment and reward mechanics
-- `tasks/` - easy/medium/hard scenarios
-- `graders/` - deterministic grading
+- `tasks/` - easy/medium/hard plus `incident_command`
+- `graders/` - episode grading
 - `models/` - log classifier
 - `data/live_logs/` - sample realistic log files
 - `scripts/smoke_test.sh` - endpoint smoke tests
+- `evaluation/run_incident_command_eval.py` - Phase 2 scenario evaluator
 
 ## install Docker
 ```bash
@@ -109,7 +117,17 @@ Example response:
   "recommended_fix": "restart_service",
   "done": true,
   "last_reward": 1.05,
-  "score": 1.0
+  "score": 1.0,
+  "score_breakdown": {
+    "recovery": 1.0,
+    "root_cause": 1.0,
+    "efficiency": 1.0,
+    "safety": 1.0,
+    "coordination": 1.0,
+    "communication": 1.0,
+    "learning": 1.0
+  },
+  "reward_profile": "medium"
 }
 ```
 
@@ -119,7 +137,9 @@ Field meaning:
 - `recommended_fix`: remediation action selected
 - `done`: episode completion status
 - `last_reward`: reward from final action step
-- `score`: deterministic grader output (`1.0` success, `0.0` failure)
+- `score`: weighted episode score
+- `score_breakdown`: per-dimension component scores used by the reward engine
+- `reward_profile`: scoring profile applied to the task
 
 ## Label to Action Mapping
 - `disk_full` -> `clear_disk`
@@ -134,6 +154,99 @@ Field meaning:
 - `GET /tasks`
 - `POST /grader`
 - `GET /baseline`
+
+## Available Tasks
+- `easy`
+- `medium`
+- `hard`
+- `incident_command`
+
+`incident_command` is the new Phase 2 scenario. It simulates a checkout outage with memory pressure, deployment context, stakeholder updates, and rewards for coordination work beyond simple remediation.
+
+## Round 2 Positioning
+This repo now targets the April 2026 Round 2 OpenEnv hackathon themes through one unified environment design:
+- multi-agent interactions
+- long-horizon planning and instruction following
+- world modeling for professional workflows
+- self-improving agent systems
+
+The `incident_command` task is the main Phase 2 scenario used to demonstrate those themes.
+
+## Training Pipeline
+The repo now includes a full TRL-based training pipeline in `models/train.py`.
+
+It supports:
+- supervised fine-tuning on oracle action plans for all tasks
+- GRPO fine-tuning using the local environment reward engine
+- local evaluation that writes reward metrics to `outputs/phase2_training/eval_metrics.json`
+
+Install the optional training stack:
+```bash
+source ~/venv/bin/activate
+pip install -r requirements-training.txt
+```
+
+Run the full pipeline:
+```bash
+source ~/venv/bin/activate
+python3 models/train.py \
+  --stage all \
+  --model-name-or-path Qwen/Qwen2.5-0.5B-Instruct \
+  --output-dir outputs/phase2_training
+```
+
+Run only SFT:
+```bash
+python3 models/train.py --stage sft --output-dir outputs/phase2_training
+```
+
+Run only GRPO starting from an existing checkpoint:
+```bash
+python3 models/train.py \
+  --stage grpo \
+  --model-name-or-path outputs/phase2_training/sft \
+  --output-dir outputs/phase2_training
+```
+
+Run evaluation:
+```bash
+python3 models/train.py \
+  --stage eval \
+  --model-name-or-path outputs/phase2_training/grpo \
+  --output-dir outputs/phase2_training
+```
+
+Main outputs:
+- `outputs/phase2_training/sft/`
+- `outputs/phase2_training/grpo/`
+- `outputs/phase2_training/sft_dataset.jsonl`
+- `outputs/phase2_training/eval_metrics.json`
+
+## Phase 2 Actions
+The classic tasks still use:
+- `analyze_logs`
+- `take_action`
+
+The new `incident_command` task also supports:
+- `delegate_investigation`
+- `communicate_status`
+- `write_postmortem`
+
+Example flow:
+```bash
+curl -s -X POST "http://localhost:7860/reset?task_name=incident_command"
+curl -s -X POST http://localhost:7860/step -H "Content-Type: application/json" \
+  -d '{"action_type":"delegate_investigation","payload":{"role":"sre_agent","objective":"Check memory pressure and recent deploy changes"}}'
+curl -s -X POST http://localhost:7860/step -H "Content-Type: application/json" \
+  -d '{"action_type":"communicate_status","payload":{"audience":"stakeholders","summary":"Investigating checkout degradation and elevated latency."}}'
+curl -s -X POST http://localhost:7860/step -H "Content-Type: application/json" \
+  -d '{"action_type":"analyze_logs"}'
+curl -s -X POST http://localhost:7860/step -H "Content-Type: application/json" \
+  -d '{"action_type":"take_action","payload":{"fix":"restart_service"}}'
+curl -s -X POST http://localhost:7860/step -H "Content-Type: application/json" \
+  -d '{"action_type":"write_postmortem","payload":{"summary":"checkout-api memory pressure after deployment caused failed checkouts.","action_items":["Add memory regression guard to rollout checks"]}}'
+curl -s -X POST http://localhost:7860/grader
+```
 
 ## Quick Validation
 ```bash
@@ -151,7 +264,7 @@ docker build -t openenv-devops .
 docker run -p 7860:7860 openenv-devops
 curl -s http://localhost:7860/tasks
 ```
-- Confirm task list has `easy`, `medium`, `hard`.
+- Confirm task list has `easy`, `medium`, `hard`, and `incident_command`.
 
 2. End-to-End API Regression
 - Run the built-in smoke test:
@@ -159,6 +272,10 @@ curl -s http://localhost:7860/tasks
 ./scripts/smoke_test.sh
 ```
 - This validates `reset -> step -> grader` for easy/medium/hard and baseline.
+- For the Phase 2 flow, also run:
+```bash
+python3 evaluation/run_incident_command_eval.py
+```
 
 3. Log Ingestion Path Testing
 - JSON text ingestion:
@@ -207,7 +324,13 @@ python3 evaluation/run_agent_eval.py --agent baseline --runs 5
 ```
 - This re-runs baseline across `easy`, `medium`, `hard` for multiple rounds.
 
-8. Standard LLM Agent Run (all tasks)
+8. Phase 2 Incident Command Run
+```bash
+python3 evaluation/run_incident_command_eval.py
+```
+- Runs the new multi-step incident-response scenario and prints grading breakdown.
+
+9. Standard LLM Agent Run (all tasks)
 ```bash
 export LLM_API_KEY=<your_api_key>
 python3 evaluation/run_agent_eval.py \
@@ -217,10 +340,18 @@ python3 evaluation/run_agent_eval.py \
 ```
 - Runs LLM-driven fix selection for all tasks.
 
-9. Score Variance Check
+10. Score Variance Check
 ```bash
 python3 evaluation/variance_check.py --agent baseline --runs 10
 ```
+
+## Hackathon Deliverables Checklist
+- OpenEnv environment: implemented
+- measurable reward model: implemented
+- Phase 2 multi-agent scenario: implemented
+- full HF TRL training pipeline: implemented in `models/train.py`
+- reward-improvement evidence for demo: still to be prepared
+- mini-blog or short video: still to be prepared
 
 Optional variance check for LLM:
 ```bash

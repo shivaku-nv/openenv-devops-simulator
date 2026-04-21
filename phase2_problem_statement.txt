@@ -1,0 +1,33 @@
+Now for the big reveal
+
+We’re excited to share the core problem themes for Round 2 - the foundation your solutions will be built on.
+
+These include:
+
+Multi-Agent Interactions
+Long-Horizon Planning & Instruction Following
+World Modeling across professional and personal tasks
+Self-Improving agent systems
+
+These themes reflect the direction of real-world AI environments and agent behavior that this hackathon is designed to evaluate.
+
+Your task is to choose any one (or more) of these themes and design your own problem statement around it. The goal is to simulate realistic scenarios, enable meaningful agent interaction, and support measurable outcomes.
+
+As part of your submission, you are expected to clearly define:
+
+The **problem statement**
+The **environment** in which the agent(s) will operate
+The **capabilities** of the agent(s)
+The **tasks** to be performed
+The **reward model/evaluation logic**
+The **post-training or self-improvement strategy**
+
+We've also included the detailed judging criteria for this round in the attached document here: Read Here
+
+We strongly recommend reviewing it carefully- high-scoring submissions will not just match a theme, but will also:
+
+Define clear, structured tasks and environments
+Incorporate robust evaluation and reward mechanisms
+Reflect real-world complexity aligned with OpenEnv principles
+
+You can begin working on your problem statement right away. The training and implementation phase will take place during the on-site hackathon, where you will be provided with compute credits.
