@@ -1,0 +1,107 @@
+{
+  "experiment": "incident_command_reward_uplift",
+  "before": {
+    "task_name": "incident_command",
+    "variant": "before_minimal_recovery_only",
+    "actions": [
+      {
+        "action_type": "analyze_logs"
+      },
+      {
+        "action_type": "take_action",
+        "payload": {
+          "fix": "restart_service"
+        }
+      }
+    ],
+    "score": 0.84,
+    "profile": "incident_command",
+    "components": {
+      "recovery": 1.0,
+      "root_cause": 1.0,
+      "efficiency": 1.0,
+      "safety": 1.0,
+      "coordination": 1.0,
+      "communication": 0.0,
+      "learning": 0.0
+    },
+    "weighted_components": {
+      "recovery": 0.28,
+      "root_cause": 0.18,
+      "efficiency": 0.12,
+      "safety": 0.14,
+      "coordination": 0.12,
+      "communication": 0.0,
+      "learning": 0.0
+    }
+  },
+  "after": {
+    "task_name": "incident_command",
+    "variant": "after_full_incident_playbook",
+    "actions": [
+      {
+        "action_type": "delegate_investigation",
+        "payload": {
+          "role": "sre_agent",
+          "objective": "Check memory pressure and recent deployment changes"
+        }
+      },
+      {
+        "action_type": "communicate_status",
+        "payload": {
+          "audience": "stakeholders",
+          "summary": "Investigating checkout degradation and elevated latency."
+        }
+      },
+      {
+        "action_type": "analyze_logs"
+      },
+      {
+        "action_type": "take_action",
+        "payload": {
+          "fix": "restart_service"
+        }
+      },
+      {
+        "action_type": "write_postmortem",
+        "payload": {
+          "summary": "checkout-api memory pressure after deployment caused failed checkouts.",
+          "action_items": [
+            "Add memory regression guard to rollout checks",
+            "Create alert for sustained OOM restart loops"
+          ]
+        }
+      }
+    ],
+    "score": 1.0,
+    "profile": "incident_command",
+    "components": {
+      "recovery": 1.0,
+      "root_cause": 1.0,
+      "efficiency": 1.0,
+      "safety": 1.0,
+      "coordination": 1.0,
+      "communication": 1.0,
+      "learning": 1.0
+    },
+    "weighted_components": {
+      "recovery": 0.28,
+      "root_cause": 0.18,
+      "efficiency": 0.12,
+      "safety": 0.14,
+      "coordination": 0.12,
+      "communication": 0.08,
+      "learning": 0.08
+    }
+  },
+  "absolute_gain": 0.16,
+  "component_gain": {
+    "recovery": 0.0,
+    "root_cause": 0.0,
+    "efficiency": 0.0,
+    "safety": 0.0,
+    "coordination": 0.0,
+    "communication": 1.0,
+    "learning": 1.0
+  }
+}

@@ -47,6 +47,22 @@ Phase 2 behavior:
 - Phase 2 multi-step task: `incident_command`
 - Docker-ready deployment
 
+## Hackathon Packaging
+- Reward evidence artifact: [`outputs/reward_evidence/README.md`](outputs/reward_evidence/README.md)
+- Mini blog and demo outline: [`docs/demo/MINI_BLOG.md`](docs/demo/MINI_BLOG.md)
+- Hugging Face blog post draft: [`docs/demo/HF_BLOG_POST.md`](docs/demo/HF_BLOG_POST.md)
+- Converted reference docs: [`docs/README.md`](docs/README.md)
+- Repro command: `python3 evaluation/generate_reward_evidence.py`
+
+## Submission Links
+- Hugging Face Space URL: `https://shivakunv-devops-incident-sim.hf.space/`
+- Training run notebook in repo: [`notebooks/openenv_devops_training_run.ipynb`](notebooks/openenv_devops_training_run.ipynb)
+- Public Colab link: `https://colab.research.google.com/github/shivaku-nv/openenv-devops-simulator/blob/main/notebooks/openenv_devops_training_run.ipynb`
+- Code repository link: `https://github.com/shivaku-nv/openenv-devops-simulator`
+- Hugging Face blog post draft: [`docs/demo/HF_BLOG_POST.md`](docs/demo/HF_BLOG_POST.md)
+- Publish-ready blog editor entry: `https://huggingface.co/new-blog`
+- Final published blog URL: replace this line after posting the article
+
 ## Dir Highlights
 - `api/server.py` - API routes and ingestion logic
 - `env/` - simulator environment and reward mechanics
@@ -350,8 +366,8 @@ python3 evaluation/variance_check.py --agent baseline --runs 10
 - measurable reward model: implemented
 - Phase 2 multi-agent scenario: implemented
 - full HF TRL training pipeline: implemented in `models/train.py`
-- reward-improvement evidence for demo: still to be prepared
-- mini-blog or short video: still to be prepared
+- reward-improvement evidence for demo: packaged in `outputs/reward_evidence/`
+- mini-blog or short video: packaged as a repo-ready draft in `docs/demo/MINI_BLOG.md`
 
 Optional variance check for LLM:
 ```bash

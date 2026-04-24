@@ -80,5 +80,5 @@ Command Line:
 - environment deployment on OpenEnv / Hugging Face Space
 - problem statement in `PHASE2_PROBLEM_STATEMENT.md`
 - training pipeline in `models/train.py` plus `requirements-training.txt`
-- before/after reward evidence or reward curves
-- short blog post or short video demo
+- before/after reward evidence or reward curves in `outputs/reward_evidence/`
+- short blog post or short video demo draft in `docs/demo/MINI_BLOG.md`
