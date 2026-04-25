@@ -47,6 +47,38 @@ Phase 2 behavior:
 - Phase 2 multi-step task: `incident_command`
 - Docker-ready deployment
 
+## Hackathon Packaging
+- Reward evidence artifact: [`outputs/reward_evidence/README.md`](outputs/reward_evidence/README.md)
+- Mini blog and demo outline: [`docs/demo/MINI_BLOG.md`](docs/demo/MINI_BLOG.md)
+- Hugging Face blog post draft: [`docs/demo/HF_BLOG_POST.md`](docs/demo/HF_BLOG_POST.md)
+- Converted reference docs: [`docs/README.md`](docs/README.md)
+- Repro command: `python3 evaluation/generate_reward_evidence.py`
+
+## Submission Links
+- Hugging Face Space URL: `https://shivakunv-devops-incident-sim.hf.space/`
+- Training run notebook in repo: [`notebooks/openenv_devops_training_run.ipynb`](notebooks/openenv_devops_training_run.ipynb)
+- Public Colab link: `https://colab.research.google.com/github/shivaku-nv/openenv-devops-simulator/blob/main/notebooks/openenv_devops_training_run.ipynb`
+- Code repository link: `https://github.com/shivaku-nv/openenv-devops-simulator`
+- Hugging Face blog post draft: [`docs/demo/HF_BLOG_POST.md`](docs/demo/HF_BLOG_POST.md)
+- Publish-ready blog editor entry: `https://huggingface.co/new-blog`
+- Final published blog URL: `TODO_REPLACE_WITH_PUBLISHED_HF_BLOG_URL`
+
+## Training Evidence Plots
+
+These plots must be committed as real image files and embedded inline for automated validation.
+
+![Training Loss Curve](docs/assets/training_loss_curve.png)
+![Training Reward Curve](docs/assets/training_reward_curve.png)
+
+Generate real training metrics and plot images:
+
+```bash
+source ~/venv/bin/activate && python3 models/train.py --stage all --output-dir outputs/phase2_training && python3 scripts/export_training_metrics.py --output-dir outputs/phase2_training --out outputs/phase2_training/training_metrics.json && python3 scripts/render_training_curves.py --input outputs/phase2_training/training_metrics.json --output-dir docs/assets
+```
+
+Expected metrics JSON path:
+- `outputs/phase2_training/training_metrics.json`
+
 ## Dir Highlights
 - `api/server.py` - API routes and ingestion logic
 - `env/` - simulator environment and reward mechanics
@@ -350,8 +382,8 @@ python3 evaluation/variance_check.py --agent baseline --runs 10
 - measurable reward model: implemented
 - Phase 2 multi-agent scenario: implemented
 - full HF TRL training pipeline: implemented in `models/train.py`
-- reward-improvement evidence for demo: still to be prepared
-- mini-blog or short video: still to be prepared
+- reward-improvement evidence for demo: packaged in `outputs/reward_evidence/`
+- mini-blog or short video: packaged as a repo-ready draft in `docs/demo/MINI_BLOG.md`
 
 Optional variance check for LLM:
 ```bash

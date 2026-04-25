@@ -402,11 +402,11 @@ The hackathon note also calls out a few explicit deliverables beyond the environ
 - clear reward logic and score breakdown
 - a Phase 2 scenario with measurable outcomes
 
-### Still required for final packaging
-- a short reward-improvement demo, such as before/after metrics or reward curves
-- a mini-blog or short video walkthrough of the submission
+### Final packaging now included in the repo
+- a short reward-improvement demo, such as before/after metrics or reward curves, packaged in `outputs/reward_evidence/`
+- a mini-blog or short video walkthrough draft in `docs/demo/MINI_BLOG.md`
 
-The training-script requirement is already covered in this repo via `models/train.py`, which implements supervised bootstrap plus GRPO fine-tuning against the local reward engine. The remaining items are presentation artifacts rather than missing design pieces.
+The training-script requirement is already covered in this repo via `models/train.py`, which implements supervised bootstrap plus GRPO fine-tuning against the local reward engine. The remaining publication step, if needed, is simply posting the prepared material to Hugging Face or YouTube.
 
 ## Why This Is Realistic
 Real incidents are:

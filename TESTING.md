@@ -179,9 +179,9 @@ python3 evaluation/run_incident_command_eval.py
 - reward logic defined: yes
 - self-improvement strategy defined: yes
 
-For final hackathon packaging, also prepare:
-- a short reward-improvement demo artifact
-- a mini-blog or short video
+For final hackathon packaging, the repo now includes:
+- a short reward-improvement demo artifact in `outputs/reward_evidence/`
+- a mini-blog or short video draft in `docs/demo/MINI_BLOG.md`
 
 ## Training Pipeline Verification
 Install training dependencies:
