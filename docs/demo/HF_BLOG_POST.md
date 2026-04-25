@@ -113,5 +113,6 @@ This submission aligns well with the Round 2 themes:
 - Repository: `https://github.com/shivaku-nv/openenv-devops-simulator`
 - Reward evidence: `outputs/reward_evidence/README.md`
 - Notebook: `notebooks/openenv_devops_submission.ipynb`
+- Public training Colab: `https://colab.research.google.com/drive/16jxAyoxadyQglSzYBZe-Vo8Qe9P3oTcz?usp=sharing`
 
 If published as a Hugging Face article, this post can be pasted directly into the blog editor with minor formatting cleanup only.

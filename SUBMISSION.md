@@ -80,5 +80,6 @@ Command Line:
 - environment deployment on OpenEnv / Hugging Face Space
 - problem statement in `PHASE2_PROBLEM_STATEMENT.md`
 - training pipeline in `models/train.py` plus `requirements-training.txt`
+- stable public training Colab notebook: `https://colab.research.google.com/drive/16jxAyoxadyQglSzYBZe-Vo8Qe9P3oTcz?usp=sharing`
 - before/after reward evidence or reward curves in `outputs/reward_evidence/`
 - short blog post or short video demo draft in `docs/demo/MINI_BLOG.md`

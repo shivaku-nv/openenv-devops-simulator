@@ -57,7 +57,7 @@ Phase 2 behavior:
 ## Submission Links
 - Hugging Face Space URL: `https://shivakunv-devops-incident-sim.hf.space/`
 - Training run notebook in repo: [`notebooks/openenv_devops_training_run.ipynb`](notebooks/openenv_devops_training_run.ipynb)
-- Public Colab link: `https://colab.research.google.com/github/shivaku-nv/openenv-devops-simulator/blob/main/notebooks/openenv_devops_training_run.ipynb`
+- Public Colab link (stable): `https://colab.research.google.com/drive/16jxAyoxadyQglSzYBZe-Vo8Qe9P3oTcz?usp=sharing`
 - Code repository link: `https://github.com/shivaku-nv/openenv-devops-simulator`
 - Hugging Face blog post draft: [`docs/demo/HF_BLOG_POST.md`](docs/demo/HF_BLOG_POST.md)
 - Publish-ready blog editor entry: `https://huggingface.co/new-blog`
