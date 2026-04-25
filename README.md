@@ -61,7 +61,7 @@ Phase 2 behavior:
 - Code repository link: `https://github.com/shivaku-nv/openenv-devops-simulator`
 - Hugging Face blog post draft: [`docs/demo/HF_BLOG_POST.md`](docs/demo/HF_BLOG_POST.md)
 - Publish-ready blog editor entry: `https://huggingface.co/new-blog`
-- Final published blog URL: `TODO_REPLACE_WITH_PUBLISHED_HF_BLOG_URL`
+- Final published blog URL: `https://huggingface.co/spaces/shivakunv/devops_incident_sim`
 
 ## Training Evidence Plots
 
