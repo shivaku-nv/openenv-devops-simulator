@@ -1,0 +1,30 @@
+Finale Manual TODO (D-day)
+
+1. Run the training notebook end-to-end in Colab:
+   - notebooks/openenv_devops_training_run.ipynb
+   - Keep the public Colab URL stable and confirm it opens without auth issues.
+
+2. Produce real training metrics JSON from that run (steps/loss/reward) and render committed plot images:
+   - source ~/venv/bin/activate
+   - python3 scripts/render_training_curves.py --input <real_training_metrics.json> --output-dir docs/assets
+   - Confirm these files exist and commit them:
+     - docs/assets/training_loss_curve.png
+     - docs/assets/training_reward_curve.png
+
+3. Verify Hugging Face Space while logged out:
+   - https://shivakunv-devops-incident-sim.hf.space/
+   - Check /, /web, /log-ui, /tasks, and POST /reset.
+   - Confirm Space is public, live, and cloneable.
+
+4. Publish the HF blog from docs/demo/HF_BLOG_POST.md.
+   - After publish, copy final public blog URL.
+
+5. Update README.md final blog link placeholder:
+   - Replace TODO_REPLACE_WITH_PUBLISHED_HF_BLOG_URL with actual published URL.
+
+6. Run final validation (outside this sandbox where openenv is available):
+   - ./validate-submission.sh https://shivakunv-devops-incident-sim.hf.space
+   - openenv validate (if installed)
+
+7. Final README click-through audit from GitHub view:
+   - Confirm every required deliverable is directly reachable from README.
